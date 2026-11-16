@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- EDIT: your name and a one-line description (used by search engines and link previews) -->
+  <title>Dr. Jane Doe · Computational Materials Science</title>
+  <meta name="description" content="Jane Doe is a computational materials scientist working on first-principles and machine-learning methods for energy materials.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⬡</text></svg>">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,400;7..72,600&family=Public+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --paper: #fbfcfd;
+      --ink: #1d2733;
+      --muted: #5a6573;
+      --rule: #dfe4ea;
+      --accent: #2c4f9e;   /* cobalt: links, unit-cell highlight */
+      --atom: #9aa7b8;
+      --bond: #c9d1db;
+      --serif: "Literata", Georgia, "Times New Roman", serif;
+      --sans: "Public Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      --measure: 42rem;
+      color-scheme: light;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --paper: #141a22;
+        --ink: #e3e8ee;
+        --muted: #9aa5b3;
+        --rule: #2a3440;
+        --accent: #8eaaf0;
+        --atom: #5e6c7e;
+        --bond: #33404f;
+        color-scheme: dark;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font: 400 1.0625rem/1.65 var(--sans);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    a { color: var(--accent); text-underline-offset: 0.18em; text-decoration-thickness: 1px; }
+    a:hover { text-decoration-thickness: 2px; }
+    :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 2px; }
+
+    .wrap { max-width: 64rem; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ---------- Navigation ---------- */
+    nav {
+      border-bottom: 1px solid var(--rule);
+      font-size: 0.9375rem;
+    }
+    nav .wrap { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding-block: 1rem; flex-wrap: wrap; }
+    nav .home { font-family: var(--serif); font-weight: 600; color: var(--ink); text-decoration: none; font-size: 1.05rem; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 0.25rem 1.5rem; flex-wrap: wrap; }
+    nav ul a { color: var(--muted); text-decoration: none; }
+    nav ul a:hover { color: var(--ink); }
+
+    /* ---------- Header ---------- */
+    header.intro .wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 20rem;
+      gap: 3rem;
+      align-items: center;
+      padding-block: 4.5rem 3.5rem;
+    }
+    .portrait {
+      width: 6rem; height: 6rem; border-radius: 50%;
+      object-fit: cover; margin-bottom: 1.5rem;
+      background: var(--rule);
+      display: grid; place-items: center;
+      font: 600 1.6rem var(--serif); color: var(--muted);
+    }
+    h1 {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.25rem, 5vw, 3.25rem);
+      line-height: 1.1;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.75rem;
+    }
+    .role { font-size: 1.125rem; margin: 0; }
+    .affil { color: var(--muted); margin: 0.25rem 0 1.5rem; }
+    .links { display: flex; flex-wrap: wrap; gap: 0.5rem 1.25rem; padding: 0; margin: 0; list-style: none; font-size: 0.9375rem; font-weight: 500; }
+
+    /* The lattice: graphene sheet with one primitive cell outlined */
+    .lattice { width: 100%; height: auto; display: block; }
+    .lattice .bonds { stroke: var(--bond); stroke-width: 1.4; }
+    .lattice .atoms { fill: var(--atom); }
+    .lattice .cell { fill: color-mix(in srgb, var(--accent) 10%, transparent); stroke: var(--accent); stroke-width: 1.5; stroke-dasharray: 4 3; }
+    .lattice .cell-atom { fill: var(--accent); }
+    .lattice figcaption, .lattice-cap { font-size: 0.8125rem; color: var(--muted); margin-top: 0.5rem; }
+
+    /* ---------- Sections ---------- */
+    main section { border-top: 1px solid var(--rule); }
+    main section .wrap {
+      display: grid;
+      grid-template-columns: 12rem minmax(0, var(--measure));
+      gap: 2rem;
+      padding-block: 3rem;
+    }
+    h2 {
+      font-family: var(--serif);
+      font-weight: 600;
+      font-size: 1.375rem;
+      line-height: 1.3;
+      margin: 0;
+    }
+    h3 { font-size: 1.0625rem; font-weight: 600; margin: 0 0 0.25rem; }
+    p { margin: 0 0 1rem; }
+    p:last-child { margin-bottom: 0; }
+
+    /* Research themes */
+    .themes { display: grid; gap: 1.75rem; }
+    .themes p { color: var(--muted); }
+
+    /* Publications */
+    .pubs { list-style: none; margin: 0; padding: 0; display: grid; gap: 1.5rem; }
+    .pubs li { display: grid; grid-template-columns: 3.5rem 1fr; gap: 1rem; }
+    .pubs .year { font-variant-numeric: tabular-nums; color: var(--muted); font-size: 0.9375rem; padding-top: 0.1rem; }
+    .pubs .title { font-family: var(--serif); font-size: 1.0625rem; display: block; line-height: 1.45; }
+    .pubs .authors, .pubs .venue { font-size: 0.9375rem; color: var(--muted); display: block; }
+    .pubs .me { color: var(--ink); font-weight: 600; }
+    .pubs .venue em { font-style: italic; }
+    .pubs .res { font-size: 0.875rem; display: flex; gap: 1rem; margin-top: 0.25rem; }
+    .more { margin-top: 1.75rem; font-size: 0.9375rem; }
+
+    /* Software */
+    .software { display: grid; gap: 1.25rem; }
+    .software p { color: var(--muted); margin: 0; }
+
+    /* News: a dated sequence */
+    .news { list-style: none; margin: 0; padding: 0; }
+    .news li { display: grid; grid-template-columns: 6rem 1fr; gap: 1rem; padding: 0.6rem 0; border-bottom: 1px solid var(--rule); }
+    .news li:last-child { border-bottom: 0; }
+    .news time { color: var(--muted); font-size: 0.9375rem; font-variant-numeric: tabular-nums; }
+
+    footer { border-top: 1px solid var(--rule); color: var(--muted); font-size: 0.875rem; }
+    footer .wrap { padding-block: 2rem; display: flex; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+
+    /* ---------- Small screens ---------- */
+    @media (max-width: 760px) {
+      header.intro .wrap { grid-template-columns: 1fr; gap: 2rem; padding-block: 3rem 2.5rem; }
+      .lattice-wrap { max-width: 22rem; }
+      nav ul { gap: 0.25rem 1.1rem; }
+      main section .wrap { grid-template-columns: 1fr; gap: 1.25rem; padding-block: 2.25rem; }
+      .news li { grid-template-columns: 1fr; gap: 0.1rem; }
+    }
+    @media (max-width: 480px) { .lattice-wrap { display: none; } }
+    @media print {
+      nav, .lattice-wrap { display: none; }
+      a { color: inherit; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav aria-label="Main">
+    <div class="wrap">
+      <a class="home" href="#">Jane Doe</a> <!-- EDIT -->
+      <ul>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#software">Software</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="intro">
+    <div class="wrap">
+      <div>
+        <!-- EDIT: replace this div with  <img class="portrait" src="images/profile.jpg" alt="Jane Doe">  -->
+        <div class="portrait" aria-hidden="true">JD</div>
+
+        <h1>Jane Doe</h1>
+        <p class="role">Assistant Professor of Materials Science</p>
+        <p class="affil">Department of Materials Science and Engineering, University Name</p>
+
+        <ul class="links">
+          <li><a href="mailto:jane.doe@university.edu">Email</a></li>
+          <li><a href="files/cv.pdf">CV (PDF)</a></li>
+          <li><a href="https://scholar.google.com/">Google Scholar</a></li>
+          <li><a href="https://github.com/janedoe">GitHub</a></li>
+          <li><a href="https://orcid.org/0000-0000-0000-0000">ORCID</a></li>
+        </ul>
+      </div>
+
+      <!-- Decorative: a honeycomb lattice with one primitive unit cell outlined. Safe to delete. -->
+      <figure class="lattice-wrap" style="margin:0">
+        <svg class="lattice" viewBox="0 0 312 216" role="img" aria-label="Honeycomb lattice with one primitive unit cell highlighted">
+          <defs>
+            <pattern id="honeycomb" width="31.18" height="54" patternUnits="userSpaceOnUse">
+              <g class="bonds">
+                <line x1="0" y1="0" x2="0" y2="18"/>
+                <line x1="0" y1="18" x2="15.59" y2="27"/>
+                <line x1="15.59" y1="27" x2="15.59" y2="45"/>
+                <line x1="15.59" y1="45" x2="0" y2="54"/>
+                <line x1="15.59" y1="45" x2="31.18" y2="54"/>
+                <line x1="31.18" y1="0" x2="31.18" y2="18"/>
+                <line x1="31.18" y1="18" x2="15.59" y2="27"/>
+              </g>
+              <g class="atoms">
+                <circle cx="0" cy="0" r="3"/><circle cx="31.18" cy="0" r="3"/>
+                <circle cx="0" cy="54" r="3"/><circle cx="31.18" cy="54" r="3"/>
+                <circle cx="0" cy="18" r="3"/><circle cx="31.18" cy="18" r="3"/>
+                <circle cx="15.59" cy="27" r="3"/><circle cx="15.59" cy="45" r="3"/>
+              </g>
+            </pattern>
+            <radialGradient id="fade" cx="50%" cy="50%" r="60%">
+              <stop offset="55%" stop-color="#fff"/>
+              <stop offset="100%" stop-color="#fff" stop-opacity="0"/>
+            </radialGradient>
+            <mask id="fade-mask"><rect width="312" height="216" fill="url(#fade)"/></mask>
+          </defs>
+          <rect width="312" height="216" fill="url(#honeycomb)" mask="url(#fade-mask)"/>
+          <!-- primitive cell: a1 = (√3a, 0), a2 = (√3a/2, 3a/2) -->
+          <polygon class="cell" points="124.7,108 155.9,108 171.5,135 140.3,135"/>
+          <circle class="cell-atom" cx="124.7" cy="108" r="3.6"/>
+          <circle class="cell-atom" cx="155.9" cy="126" r="3.6"/>
+        </svg>
+      </figure>
+    </div>
+  </header>
+
+  <main>
+
+    <section id="about" aria-labelledby="about-h">
+      <div class="wrap">
+        <h2 id="about-h">About</h2>
+        <div>
+          <!-- EDIT: 2–3 short paragraphs about you -->
+          <p>I use first-principles calculations and machine learning to understand and design materials for energy storage and conversion. My group develops methods that connect quantum-mechanical simulations to the length and time scales where real devices fail or succeed.</p>
+          <p>Before joining University Name, I was a postdoctoral researcher at National Laboratory and received my PhD in Materials Science from Another University.</p>
+          <p><strong>Prospective students:</strong> I am recruiting PhD students for the coming academic year. Please read <a href="#contact">this note</a> before emailing.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="research" aria-labelledby="research-h">
+      <div class="wrap">
+        <h2 id="research-h">Research</h2>
+        <div class="themes">
+          <!-- EDIT: 2–4 research themes -->
+          <div>
+            <h3>Ion transport in solid electrolytes</h3>
+            <p>Density functional theory and ab initio molecular dynamics to find the structural features that enable fast lithium and sodium conduction.</p>
+          </div>
+          <div>
+            <h3>Machine-learned interatomic potentials</h3>
+            <p>Building accurate, transferable potentials that reach million-atom simulations of interfaces, grain boundaries and defects.</p>
+          </div>
+          <div>
+            <h3>High-throughput materials discovery</h3>
+            <p>Automated workflows that screen thousands of candidate compounds for stability, synthesizability and target properties.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="publications" aria-labelledby="pubs-h">
+      <div class="wrap">
+        <h2 id="pubs-h">Selected publications</h2>
+        <div>
+          <!-- EDIT: copy an <li> block for each paper. Wrap your name in <span class="me">. -->
+          <ol class="pubs" reversed>
+            <li>
+              <span class="year">2025</span>
+              <div>
+                <span class="title">Universal descriptors for fast ion conduction in inorganic solids</span>
+                <span class="authors"><span class="me">J. Doe</span>, A. Coauthor, B. Coauthor</span>
+                <span class="venue"><em>Nature Materials</em> 24, 123–130</span>
+                <span class="res"><a href="#">PDF</a><a href="#">DOI</a><a href="#">Code</a></span>
+              </div>
+            </li>
+            <li>
+              <span class="year">2024</span>
+              <div>
+                <span class="title">Equivariant neural network potentials for oxide interfaces</span>
+                <span class="authors">C. Student, <span class="me">J. Doe</span></span>
+                <span class="venue"><em>Physical Review Materials</em> 8, 045401</span>
+                <span class="res"><a href="#">PDF</a><a href="#">DOI</a><a href="#">Data</a></span>
+              </div>
+            </li>
+            <li>
+              <span class="year">2023</span>
+              <div>
+                <span class="title">Defect thermodynamics and dopability of wide-gap nitrides from first principles</span>
+                <span class="authors"><span class="me">J. Doe</span>, D. Coauthor, E. Advisor</span>
+                <span class="venue"><em>npj Computational Materials</em> 9, 77</span>
+                <span class="res"><a href="#">PDF</a><a href="#">DOI</a></span>
+              </div>
+            </li>
+          </ol>
+          <p class="more">Full list on <a href="https://scholar.google.com/">Google Scholar</a>.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="software" aria-labelledby="software-h">
+      <div class="wrap">
+        <h2 id="software-h">Software</h2>
+        <div class="software">
+          <!-- EDIT: codes, packages and datasets you maintain -->
+          <div>
+            <h3><a href="https://github.com/janedoe/latticeflow">latticeflow</a></h3>
+            <p>Python workflows for high-throughput DFT with VASP and Quantum ESPRESSO, built on pymatgen and ASE.</p>
+          </div>
+          <div>
+            <h3><a href="https://github.com/janedoe/ion-md">ion-md</a></h3>
+            <p>Tools for computing diffusivities and conductivities from molecular dynamics trajectories.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="news" aria-labelledby="news-h">
+      <div class="wrap">
+        <h2 id="news-h">News</h2>
+        <!-- EDIT: newest first; keep 4–6 items -->
+        <ol class="news">
+          <li><time datetime="2026-10">Oct 2026</time><span>Invited talk at the MRS Fall Meeting, Boston.</span></li>
+          <li><time datetime="2026-08">Aug 2026</time><span>Received an NSF CAREER award for work on solid electrolytes.</span></li>
+          <li><time datetime="2026-05">May 2026</time><span>Congratulations to C. Student on passing the qualifying exam.</span></li>
+          <li><time datetime="2026-01">Jan 2026</time><span>Started as Assistant Professor at University Name.</span></li>
+        </ol>
+      </div>
+    </section>
+
+    <section id="contact" aria-labelledby="contact-h">
+      <div class="wrap">
+        <h2 id="contact-h">Contact</h2>
+        <div>
+          <!-- EDIT -->
+          <p><a href="mailto:jane.doe@university.edu">jane.doe@university.edu</a><br>
+          Room 123, Engineering Building<br>
+          University Name, City, Country</p>
+          <p>Prospective students: please include your CV and a short note on which research theme interests you, with "Prospective student" in the subject line.</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="yr">2026</span> Jane Doe</span>
+      <span>Last updated November 2026</span>
+    </div>
+  </footer>
+
+  <script>document.getElementById("yr").textContent = new Date().getFullYear();</script>
+</body>
+</html>
